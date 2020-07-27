@@ -10,6 +10,17 @@
             "StackName": "amplify-amplifytutorial-dev-124945",
             "StackId": "arn:aws:cloudformation:us-west-2:542616626512:stack/amplify-amplifytutorial-dev-124945/fdbee1c0-d039-11ea-bbf1-0a7832c8f992",
             "AmplifyAppId": "dtr1rjs1xgmr2"
+        },
+        "categories": {
+            "auth": {
+                "amplifytutoriala0dcacd0": {}
+            },
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "dtr1rjs1xgmr2",
+                    "type": "manual"
+                }
+            }
         }
     }
 }

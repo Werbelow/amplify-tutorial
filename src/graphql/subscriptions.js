@@ -8,6 +8,7 @@ export const onCreateQuestion = /* GraphQL */ `
       type
       content
       createdAt
+      updatedAt
       answer {
         id
         questionID
@@ -15,7 +16,6 @@ export const onCreateQuestion = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      updatedAt
     }
   }
 `;
@@ -26,6 +26,7 @@ export const onUpdateQuestion = /* GraphQL */ `
       type
       content
       createdAt
+      updatedAt
       answer {
         id
         questionID
@@ -33,7 +34,6 @@ export const onUpdateQuestion = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      updatedAt
     }
   }
 `;
@@ -44,6 +44,7 @@ export const onDeleteQuestion = /* GraphQL */ `
       type
       content
       createdAt
+      updatedAt
       answer {
         id
         questionID
@@ -51,7 +52,6 @@ export const onDeleteQuestion = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      updatedAt
     }
   }
 `;

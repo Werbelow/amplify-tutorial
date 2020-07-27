@@ -1,5 +1,11 @@
 type Question
   @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read, create] }
+      { allow: private, operations: [read, create, update, delete] }
+    ]
+  )
   @key(
     name: "byDate"
     fields: ["type", "createdAt"]
@@ -11,7 +17,16 @@ type Question
   createdAt: AWSDateTime!
   answer: Answer @connection(fields: ["id"])
 }
-type Answer @model @key(fields: ["questionID"]) {
+type Answer
+  @model
+  @key(fields: ["questionID"])
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: public, operations: [read] }
+      { allow: private, operations: [read] }
+    ]
+  ) {
   id: ID!
   questionID: ID!
   content: String!

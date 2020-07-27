@@ -4,15 +4,17 @@ import { API } from "aws-amplify";
 import { getQuestion } from "../graphql/queries";
 import { createAnswer } from "../graphql/mutations";
 import BackHome from "./BackHome";
-const Question = ({ setSubmittingAnswer }) => {
+const Question = ({ user, setSubmittingAnswer }) => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [question, setQuestion] = useState({});
   const [answerInput, setAnswerInput] = useState("");
+
   useEffect(() => {
     fetchQuestion();
     // eslint-disable-next-line
   }, [id]);
+
   async function fetchQuestion() {
     try {
       const question = await API.graphql({
@@ -28,10 +30,12 @@ const Question = ({ setSubmittingAnswer }) => {
       console.log("FETCH QUESTION ERROR ", err);
     }
   }
+
   function onChangeAnswer(e) {
     e.persist();
     setAnswerInput(e.target.value);
   }
+
   async function handleAddAnswer(e) {
     e.preventDefault();
     const answerInfo = {
@@ -42,6 +46,7 @@ const Question = ({ setSubmittingAnswer }) => {
     try {
       await API.graphql({
         query: createAnswer,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
         variables: {
           input: answerInfo,
         },
@@ -51,9 +56,12 @@ const Question = ({ setSubmittingAnswer }) => {
       fetchQuestion();
     } catch (err) {
       setSubmittingAnswer(false);
-      console.log("ERROR ", err);
+      if (err) {
+        console.log("ERROR ", err.errors);
+      }
     }
   }
+
   return (
     <>
       <div className="card">
@@ -64,7 +72,7 @@ const Question = ({ setSubmittingAnswer }) => {
               {(question.answer && question.answer.content) ||
                 "This question has not been answered yet"}
             </p>
-            {!question.answer && (
+            {user && question.answer === null && (
               <div className="answer-section">
                 <h3 className="sub-heading">add answer</h3>
                 <form

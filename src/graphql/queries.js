@@ -8,6 +8,7 @@ export const getQuestion = /* GraphQL */ `
       type
       content
       createdAt
+      updatedAt
       answer {
         id
         questionID
@@ -15,7 +16,6 @@ export const getQuestion = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      updatedAt
     }
   }
 `;
@@ -31,6 +31,7 @@ export const listQuestions = /* GraphQL */ `
         type
         content
         createdAt
+        updatedAt
         answer {
           id
           questionID
@@ -38,20 +39,43 @@ export const listQuestions = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        updatedAt
       }
       nextToken
     }
   }
 `;
-export const getAnswer = /* GraphQL */ `
-  query GetAnswer($questionID: ID!) {
-    getAnswer(questionID: $questionID) {
-      id
-      questionID
-      content
-      createdAt
-      updatedAt
+export const questionsByDate = /* GraphQL */ `
+  query QuestionsByDate(
+    $type: PostType
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelQuestionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    questionsByDate(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        content
+        createdAt
+        updatedAt
+        answer {
+          id
+          questionID
+          content
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
     }
   }
 `;
@@ -81,38 +105,14 @@ export const listAnswers = /* GraphQL */ `
     }
   }
 `;
-export const questionsByDate = /* GraphQL */ `
-  query QuestionsByDate(
-    $type: PostType
-    $createdAt: ModelStringKeyConditionInput
-    $sortDirection: ModelSortDirection
-    $filter: ModelQuestionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    questionsByDate(
-      type: $type
-      createdAt: $createdAt
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        type
-        content
-        createdAt
-        answer {
-          id
-          questionID
-          content
-          createdAt
-          updatedAt
-        }
-        updatedAt
-      }
-      nextToken
+export const getAnswer = /* GraphQL */ `
+  query GetAnswer($questionID: ID!) {
+    getAnswer(questionID: $questionID) {
+      id
+      questionID
+      content
+      createdAt
+      updatedAt
     }
   }
 `;
