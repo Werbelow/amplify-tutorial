@@ -1,0 +1,22 @@
+type Question
+  @model
+  @key(
+    name: "byDate"
+    fields: ["type", "createdAt"]
+    queryField: "questionsByDate"
+  ) {
+  id: ID!
+  type: PostType!
+  content: String
+  createdAt: AWSDateTime!
+  answer: Answer @connection(fields: ["id"])
+}
+type Answer @model @key(fields: ["questionID"]) {
+  id: ID!
+  questionID: ID!
+  content: String!
+  createdAt: AWSDateTime!
+}
+enum PostType {
+  QUESTION
+}
